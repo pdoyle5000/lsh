@@ -1,6 +1,10 @@
+from typing import Dict, List
 import numpy as np
 
 # The idea here will be to replace the hash_tables with elasticsearch.
+def euclidean_dist(x, y):
+    diff = np.array(x) - y
+    return np.sqrt(np.dot(diff, diff))
 
 class LSH:
     def __init__(self, hash_byte_len: int, dims: int, tables: int):
@@ -8,10 +12,12 @@ class LSH:
         self.dims = dims
         self.num_tables = tables
 
+        # for unit tests, manually set planes to known values.
         self.planes = [np.random.randn(self.hash_byte_len, self.dims)
                        for _ in range(self.num_tables)]
 
-        self.hash_tables = [dict() for i in range(self.num_tables)]
+        print(self.planes)
+        self.hash_tables: List[Dict] = [dict() for i in range(self.num_tables)]
 
     def hash(self, planes, point):
         try:
@@ -32,11 +38,12 @@ class LSH:
         else:
             value = tuple(point)
 
+        print(f"VAL: {value}")
         for loc, htable in enumerate(self.hash_tables):
             this_hash = self.hash(self.planes[loc], point)
             htable.setdefault(this_hash, []).append(value)
 
-    def query(self, point, k=None, dist_func=LSH.euclidean_dist):
+    def query(self, point, k=None, dist_func=euclidean_dist):
         contestants = set()
         for loc, htable in enumerate(self.hash_tables):
             b_hash = self.hash(self.planes[loc], point)
@@ -58,7 +65,3 @@ class LSH:
             raise TypeError
 
 
-    @staticmethod
-    def euclidean_dist(x, y):
-        diff = np.array(x) - y
-        return np.sqrt(np.dot(diff, diff))
