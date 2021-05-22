@@ -7,14 +7,14 @@ authors = ["pdoyle5000 <pdoyle5000@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 numpy = "^1.20.3"
+
+[tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
 pytest-flake8 = "^1.0.7"
 pytest-mypy = "^0.8.1"
 pytest-xdist = "^2.2.1"
 pytest-cov = "^2.12.0"
 black = "^21.5b1"
-
-[tool.poetry.dev-dependencies]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
