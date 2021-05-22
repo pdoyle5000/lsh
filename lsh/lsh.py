@@ -3,7 +3,7 @@ from collections import OrderedDict
 import numpy as np
 
 
-def euclidean_dist(x: List, y: List) -> np.float:
+def euclidean_dist(x: List, y: List) -> float:
     return np.linalg.norm(np.array(x) - np.array(y))
 
 
